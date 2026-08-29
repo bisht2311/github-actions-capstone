@@ -28,8 +28,8 @@ jobs:
             image_name: "my-python-app"
             tag: "latest-${{ needs.generate-short-sha.outputs.short-sha }}"
         secrets:
-            docker_username: ${{ vars.DOCKER_USERNAME }}
-            docker_token: ${{ secrets.DOCKER_TOKEN }}
+            docker_username: ${{ vars.DOCKERHUB_USERNAME }}
+            docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
     deploy:
         needs:
             - build-and-push-docker
