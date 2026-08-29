@@ -1,0 +1,39 @@
+name: Main Pipeline
+on: 
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+jobs:
+    build-and-test:
+        uses: ./.github/workflows/reusable-build-test.yml
+        with:
+            python_version: "3.13"
+            run_tests: true
+    generate-short-sha:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Generate Short SHA
+              id: gen-sha
+              run: |
+                echo "set-sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+        outputs:
+            short-sha: ${{ steps.gen-sha.outputs.set-sha }}
+    build-and-push-docker:
+        needs: 
+            - build-and-test
+            - generate-short-sha
+        uses: ./.github/workflows/reusable-docker.yml
+        with:
+            image_name: "my-python-app"
+            tag: "latest-${{ needs.generate-short-sha.outputs.short-sha }}"
+        secrets:
+            docker_username: ${{ vars.DOCKER_USERNAME }}
+            docker_token: ${{ secrets.DOCKER_TOKEN }}
+    deploy:
+        needs:
+            - build-and-push-docker
+        runs-on: ubuntu-latest
+        steps:
+            - name: Image URL
+              run: echo "Image url is: ${{ needs.build-and-push-docker.outputs.image_url }} to production" 
