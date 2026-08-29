@@ -1,2 +1,3 @@
 [![PR Pipeline](https://github.com/bisht2311/github-actions-capstone/actions/workflows/pr-pipeline.yml/badge.svg)](https://github.com/bisht2311/github-actions-capstone/actions/workflows/pr-pipeline.yml)
 [![Main Pipeline](https://github.com/bisht2311/github-actions-capstone/actions/workflows/main-pipeline.yml/badge.svg)](https://github.com/bisht2311/github-actions-capstone/actions/workflows/main-pipeline.yml)
+[![Health check](https://github.com/bisht2311/github-actions-capstone/actions/workflows/health-check.yml/badge.svg)](https://github.com/bisht2311/github-actions-capstone/actions/workflows/health-check.yml)
