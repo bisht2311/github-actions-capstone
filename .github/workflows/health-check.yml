@@ -1,0 +1,55 @@
+name: Health check
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch: 
+env:
+  image_name: ${{ vars.DOCKERHUB_USERNAME }}/my-python-app
+  container_name: my-python-app-container
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Pulling image from DockerHub
+        run: |
+          docker pull ${{ env.image_name }}:latest
+      - name: Running container in detached mode
+        run: |
+          docker run -d \
+            --name ${{ env.container_name }} \
+            -p 80:80 \
+            ${{ env.image_name }}:latest
+      - name: Wait and checking health
+        id: health
+        run: |
+          echo "Waiting 5 seconds..."
+          sleep 5
+          echo "Checking health endpoint..."
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/health)
+          echo "HTTP Status Code: $status_code"
+          if [[ "$status_code" -eq 200 ]]; then
+            echo "Health check PASSED"
+            echo "status=PASSED" >> "$GITHUB_OUTPUT"
+          else
+            echo "Health check FAILED"
+            echo "status=FAILED" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+      - name: Stopping and removing container
+        if: always()
+        run: |
+          docker stop ${{ env.container_name }} && \
+          docker rm ${{ env.container_name }}
+      - name: 
+        run: |
+          echo "## Health Check Report ##" >> $GITHUB_STEP_SUMMARY
+          echo "- Image: ${{ env.image_name }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: ${{ steps.health.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Time: $(date)" >> $GITHUB_STEP_SUMMARY
