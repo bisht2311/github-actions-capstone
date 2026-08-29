@@ -24,7 +24,7 @@ jobs:
         run: |
           docker run -d \
             --name ${{ env.container_name }} \
-            -p 80:80 \
+            -p 80:5000 \
             ${{ env.image_name }}:latest
       - name: Wait and checking health
         id: health
