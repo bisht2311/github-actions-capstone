@@ -11,9 +11,6 @@ on:
                 type: boolean
                 required: true
                 default: true
-            lan:
-                description: Runtime language
-                type: string
         outputs:
             test_result:
                 value: ${{ jobs.build-and-test.outputs.test-result }}
@@ -23,9 +20,6 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v6
-            - name: Runtime Language
-              run: |
-                echo "Runtime language: ${{ inputs.lan }}"
             - name: Setup Python
               uses: actions/setup-python@v5
               with:
