@@ -12,7 +12,7 @@ A complete CI/CD project demonstrating how to use **GitHub Actions, Docker, Dock
     <img src="https://github.com/bisht2311/github-actions-capstone/actions/workflows/health-check.yml/badge.svg" alt="Health Check Status">
   </a>
 </p>
----
+
 
 ## 🚀 Project Overview
 
