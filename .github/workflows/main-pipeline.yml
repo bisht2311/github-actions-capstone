@@ -36,4 +36,5 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Image URL
-              run: echo "Image url is: ${{ needs.build-and-push-docker.outputs.image_url }} to production" 
+              run: |
+                  echo "Image url is: ${{ needs.build-and-push-docker.outputs.image_url }} to production" 
