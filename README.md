@@ -1,1 +1,1 @@
-# github-actions-capstone
+[![Main Pipeline](https://github.com/bisht2311/github-actions-capstone/actions/workflows/main-pipeline.yml/badge.svg)](https://github.com/bisht2311/github-actions-capstone/actions/workflows/main-pipeline.yml)
