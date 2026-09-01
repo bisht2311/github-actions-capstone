@@ -35,7 +35,7 @@ jobs:
         needs:
             - build-and-push-docker
             - generate-short-sha
-        runs-on: ubunubuntu-latest
+        runs-on: ubuntu-latest
         steps:
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@v0.36.0
