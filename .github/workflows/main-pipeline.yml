@@ -29,6 +29,23 @@ jobs:
         secrets:
             docker_username: ${{ vars.DOCKERHUB_USERNAME }}
             docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
+
+#DevSecOps - Day 49
+    trivy-image-scan:
+        needs:
+            - build-and-push-docker
+            - generate-short-sha
+        runs-on: ubunubuntu-latest
+        steps:
+            - name: Run Trivy vulnerability scanner
+              uses: aquasecurity/trivy-action@v0.36.0
+              with:
+                  image-ref: ${{ vars.DOCKERHUB_USERNAME }}/my-python-app:latest-${{ needs.generate-short-sha.outputs.short-sha }}
+                  format: 'table'
+                  exit-code: '1'
+                  ignore-unfixed: true
+                  severity: 'CRITICAL,HIGH'
+        
     deploy:
         needs:
             - build-and-push-docker
