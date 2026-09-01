@@ -1,13 +1,25 @@
 name: PR Pipeline
 on:
-#  pull_request:
-#    branches:
-#      - main
-#    types:
-#      - opened
-#      - synchronize 
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize 
   workflow_dispatch: 
 jobs:
+
+#DevSecOps - Day 49
+  dependency-sacn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Check Dependencies for Vulnerabilities
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+          
   build-and-test:
     uses: ./.github/workflows/reusable-build-test.yml
     with:
