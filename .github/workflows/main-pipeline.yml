@@ -48,7 +48,7 @@ jobs:
         
     deploy:
         needs:
-            - build-and-push-docker
+            - trivy-image-scan
         runs-on: ubuntu-latest
         steps:
             - name: Image URL
