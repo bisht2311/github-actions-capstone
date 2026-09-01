@@ -10,11 +10,11 @@ on:
 jobs:
 
 #DevSecOps - Day 49
-  dependency-sacn:
+  dependency-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
       - name: Check Dependencies for Vulnerabilities
         uses: actions/dependency-review-action@v4
         with:
